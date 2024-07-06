@@ -183,8 +183,10 @@ public class SolutionsTests
     }
     
     [DataTestMethod]
+    [DataRow(new[]{1,0,1,0}, 2, 4)]
     [DataRow(new[]{1,1,1,0,0,0,1,1,1,1,0}, 2, 6)]
     [DataRow(new[]{0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1}, 3, 10)]
+    [DataRow(new[]{1,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,1,1,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,0,0,1,1,0,1,1}, 8, 25)]
     public void LongestOnesTests(int[] nums, int k, int expected)
     {
         LongestOnes(nums, k).Should().Be(expected);

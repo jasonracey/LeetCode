@@ -1079,36 +1079,35 @@ public static class Solutions
         Explanation: [0,0,1,1,*1*,*1*,1,1,1,*1*,1,1,0,0,0,1,1,1,1]
         Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
         */
-        
-        // iterate through array
-        // keep track of potential length
-        // use sliding window again
 
         var max = 0;
-        var count = 0;
-        var flipped = 0;
+        var countOfOnes = 0;
+        var countOfZeroes = 0;
+        var startOfWindow = 0;
 
-        for (var i = 0; i < nums.Length; i++)
+        foreach (var num in nums)
         {
-            if (nums[i] == 1)
-            {
-                count++;
-            }
+            if (num == 1)
+                countOfOnes++;
             else
+                countOfZeroes++;
+
+            if (countOfZeroes > k)
             {
-                flipped++;
+                var prev = nums[startOfWindow];
+                
+                startOfWindow++;
+
+                if (prev == 0)
+                    countOfZeroes--;
+                else
+                    countOfOnes--;
             }
 
-            if (flipped > k)
-            {
-                flipped = k;
-                count = k;
-            }
-
-            if (count > max)
-                max = count;
+            if (countOfOnes + countOfZeroes > max)
+                max = countOfOnes + countOfZeroes;
         }
-        
+
         return max;
     }
 }
