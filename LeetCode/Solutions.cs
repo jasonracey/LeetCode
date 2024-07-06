@@ -1110,4 +1110,58 @@ public static class Solutions
 
         return max;
     }
+    
+    public static int LongestSubarray(int[] nums) 
+    {
+        /*
+        Given a binary array nums, you should delete one element from it.
+
+        Return the size of the longest non-empty subarray containing only 
+        1's in the resulting array. Return 0 if there is no such subarray.
+
+        Example 1:
+        Input: nums = [1,1,0,1]
+        Output: 3
+        Explanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's.
+        
+        Example 2:
+        Input: nums = [0,1,1,1,0,1,1,0,1]
+        Output: 5
+        Explanation: After deleting the number in position 4, [0,1,1,1,1,1,0,1] longest subarray with value 
+        of 1's is [1,1,1,1,1].
+        
+        Example 3:
+        Input: nums = [1,1,1]
+        Output: 2
+        Explanation: You must delete one element.
+        */
+
+        var countOfOnes = 0;
+        var countSinceZero = 0;
+        var removed = false;
+        var max = 0;
+        
+        foreach (var num in nums)
+        {
+            if (num == 0)
+            {
+                removed = true;
+
+                countOfOnes = countSinceZero;
+                countSinceZero = 0;
+            }
+            else
+            {
+                countOfOnes++;
+                countSinceZero++;
+            }
+            
+            if (countOfOnes > max)
+                max = countOfOnes;
+        }
+
+        return removed == false 
+            ? max - 1
+            : max;
+    }
 }

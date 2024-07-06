@@ -191,4 +191,13 @@ public class SolutionsTests
     {
         LongestOnes(nums, k).Should().Be(expected);
     }
+    
+    [DataTestMethod]
+    [DataRow(new[]{1,1,0,1}, 3)]
+    [DataRow(new[]{0,1,1,1,0,1,1,0,1}, 5)]
+    [DataRow(new[]{1,1,1}, 2)]
+    public void LongestSubarrayTests(int[] nums, int expected)
+    {
+        LongestSubarray(nums).Should().Be(expected);
+    }
 }
