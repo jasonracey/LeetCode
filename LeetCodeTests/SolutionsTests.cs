@@ -200,4 +200,12 @@ public class SolutionsTests
     {
         LongestSubarray(nums).Should().Be(expected);
     }
+    
+    [DataTestMethod]
+    [DataRow(new[]{-5,1,5,0,-7}, 1)]
+    [DataRow(new[]{-4,-3,-2,-1,4,3,2}, 0)]
+    public void LargestAltitudeTests(int[] nums, int expected)
+    {
+        LargestAltitude(nums).Should().Be(expected);
+    }
 }
