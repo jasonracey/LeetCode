@@ -208,4 +208,33 @@ public class SolutionsTests
     {
         LargestAltitude(nums).Should().Be(expected);
     }
+    
+    [DataTestMethod]
+    [DataRow(new[]{1,7,3,6,5,6}, 3)]
+    [DataRow(new[]{1,2,3}, -1)]
+    [DataRow(new[]{2,1,-1}, 0)]
+    [DataRow(new[]{-1,-1,-1,-1,-1,0}, 2)]
+    [DataRow(new[]{0,-1,-1,-1,-1,-1}, 3)]
+    [DataRow(new[]{-1,-1,-1,-1,-1,-1}, -1)]
+    [DataRow(new[]{-1,-1,-1,-1,-1,1}, -1)]
+    [DataRow(new[]{-1,-1,-1,-1,0,0}, -1)]
+    [DataRow(new[]{-1,-1,-1,-1,0,1}, 1)]
+    public void PivotIndexTests(int[] nums, int expected)
+    {
+        PivotIndex(nums).Should().Be(expected);
+    }
+    
+    public static IEnumerable<object[]> FindDifferenceData()
+    {
+        yield return [ new[]{1,2,3}, new[]{2,4,6}, new List<List<int>> {new() {1, 3},  new() {4, 6}} ];
+        yield return [ new[]{1,2,3,3}, new[]{1,1,2,2}, new List<List<int>> {new() {3},  new()} ];
+    }
+    [DataTestMethod]
+    [DynamicData(nameof(FindDifferenceData), DynamicDataSourceType.Method)]
+    public void FindDifferenceTests(int[] nums1, int[] nums2, List<List<int>> expected)
+    {
+        var result = FindDifference(nums1, nums2);
+        result[0].Should().Equal(expected[0]);
+        result[1].Should().Equal(expected[1]);
+    }
 }

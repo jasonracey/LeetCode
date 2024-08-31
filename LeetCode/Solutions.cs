@@ -1,3 +1,4 @@
+using System.IO.Pipes;
 using System.Text;
 
 namespace LeetCode;
@@ -1198,4 +1199,156 @@ public static class Solutions
         
         return max;
     }
+    
+    public static int PivotIndex(int[] nums)
+    {
+        /*
+        Given an array of integers nums, calculate the pivot index of this array.
+
+        The pivot index is the index where the sum of all the numbers strictly to 
+        the left of the index is equal to the sum of all the numbers strictly to 
+        the index's right.
+
+        If the index is on the left edge of the array, then the left sum is 0 
+        because there are no elements to the left. This also applies to the right 
+        edge of the array.
+
+        Return the leftmost pivot index. If no such index exists, return -1.
+
+        Example 1:
+        Input: nums = [1,7,3,6,5,6]
+        Output: 3
+        Explanation:
+        The pivot index is 3.
+        Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11
+        Right sum = nums[4] + nums[5] = 5 + 6 = 11
+        i=0, r 28->27, 27!=0, l 0->1
+        i=1, r 27->20, 20!=1, l 1->8
+        i=2, r 20->17, 17!=8, l 8->11
+        i=3, r 17->11, 11==11, return 3
+        
+        Example 2:
+        Input: nums = [1,2,3]
+        Output: -1
+        Explanation:
+        There is no index that satisfies the conditions in the problem statement.
+        i=0, r 6->5, 5!=0, l 0->1
+        i=1, r 5->3, 3!=1, l 1->3
+        
+        Example 3:
+        Input: nums = [2,1,-1]
+        Output: 0
+        Explanation:
+        The pivot index is 0.
+        Left sum = 0 (no elements to the left of index 0)
+        Right sum = nums[1] + nums[2] = 1 + -1 = 0
+        i=0, r 2->0, 0==0, return 0
+        */
+
+        /*
+        We start by calculating the sum of the entire array and assign it to right. As we iterate over each element
+        with the index i, we do the following:
+
+        Subtract the current element's value from right because we're essentially moving our 'pivot point' one step to
+        the right, so everything that was once to the right is now either the pivot or to its left except the current
+        element.
+
+        Check if the current sums to the left and to the right of i (not including i) are equal. If they are, i is our
+        pivot index.
+
+        If they're not equal, we add the current element's value to left because if we continue to the next element,
+        our 'pivot point' will have moved, and the current element will now be considered part of the left sum.
+        */
+        
+        var right = nums.Sum();
+        var left = 0;
+
+        for (var i = 0; i < nums.Length; i++)
+        {
+
+            right -= nums[i];
+
+            if (left == right)
+                return i;
+
+            left += nums[i];
+        }
+
+        return -1;
+    }
+    
+    public static List<List<int>> FindDifference(int[] nums1, int[] nums2)
+    {
+        const int maxValue = 1000;
+        
+        /*
+        Given two 0-indexed integer arrays nums1 and nums2, return a list answer of size 2 where:
+
+        answer[0] is a list of all distinct integers in nums1 which are not present in nums2.
+        answer[1] is a list of all distinct integers in nums2 which are not present in nums1.
+        Note that the integers in the lists may be returned in any order.
+        */
+        
+        //new[]{1,2,3}, new[]{2,4,6}
+        // iterate over first array:
+        //...[0][1][1][1][0][0][0][0][0][0][0]...
+        //...[0][0][0][0][0][0][0][0][0][0][0]...
+        // iterate over second array:
+        //...[0][1][0][1][0][0][0][0][0][0][0]...
+        //...[0][0][0][0][1][0][1][0][0][0][0]...
+
+        // arrays of -1000 to 1000
+        var first = new int[2 * maxValue + 1];
+        var second = new int[2 * maxValue + 1];
+
+        foreach (var num in nums1)
+        {
+            // add found in 1
+            first[maxValue + num] = 1; 
+        }
+        
+        foreach (var num in nums2)
+        {
+            // add found in 2 only
+            if (first[maxValue + num] == 0)
+                second[maxValue + num] = 1; 
+        }
+        
+        foreach (var num in nums2)
+        {
+            // remove found in 1 and 2
+            first[maxValue + num] = 0; 
+        }
+        
+        var ret1 = new List<int>();
+        var ret2 = new List<int>();
+        
+        for (var i = 0; i < first.Length; i++)
+        {
+            if (first[i] == 1)
+                ret1.Add(i - maxValue);
+            if (second[i] == 1)
+                ret2.Add(i - maxValue);
+        }
+        
+        return [ret1, ret2];
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
