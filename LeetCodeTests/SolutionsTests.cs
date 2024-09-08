@@ -253,6 +253,7 @@ public class SolutionsTests
     [DataRow("cabbba", "abbccc", true)]
     [DataRow("uau", "ssx", false)]
     [DataRow("mkmczky", "cckcmmy", false)]
+    [DataRow("abbzzca", "babzzcz", false)]
     public void CloseStringsTests(string word1, string word2, bool expected)
     {
         CloseStrings(word1, word2).Should().Be(expected);

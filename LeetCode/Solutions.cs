@@ -1423,8 +1423,10 @@ public static class Solutions
             return false;
         
         // true if we can make them equal by transform (Example 3)
-        // Input: word1 = "cabbba" [c,1][a,2][b,3], word2 = "abbccc" [a,1][b,2][c,3]
-        // Input: word1 = "uau" [u,2][a,1], word2 = "ssx" [s,2][x,1]
+        // this covers Example 1 also
+        // T Input: word1 = "abc", word2 = "bca"
+        // T Input: word1 = "cabbba" [c,1][a,2][b,3], word2 = "abbccc" [a,1][b,2][c,3]
+        // F Input: word1 = "uau" [u,2][a,1], word2 = "ssx" [s,2][x,1]
         var dict1 = new Dictionary<char, int>();
         foreach (var c in word1)
         {
@@ -1438,21 +1440,19 @@ public static class Solutions
             dict2[c]++;
         }
         
+        // short-circuit for performance
         if (dict1.Keys.Count != dict2.Keys.Count)
             return false;
         
-        // every character must exist in the other array
-        var keys1 = dict1.Keys.ToArray();
-        var keys2 = dict2.Keys.ToArray();
-        Array.Sort(keys1);
-        Array.Sort(keys2);
-        for (var i = 0; i < keys1.Length; i++)
+        // Can transform if ...
+        
+        // 1. every character exists in the other array
+        if (dict1.Keys.Any(c => !dict2.ContainsKey(c)))
         {
-            if (keys1[i] != keys2[i])
-                return false;
+            return false;
         }
         
-        // every count must exist in the other array
+        // 2. every instance of every count exists in the other array
         var values1 = dict1.Values.ToArray();
         var values2 = dict2.Values.ToArray();
         Array.Sort(values1);
@@ -1462,7 +1462,22 @@ public static class Solutions
             if (values1[i] != values2[i])
                 return false;
         }
-
-        return true;
+        
+        // 2. every instance of every count exists in the other array
+        var dictcc1 = new Dictionary<int, int>();
+        foreach (var count in dict1.Values)
+        {
+            dictcc1.TryAdd(count, 0);
+            dictcc1[count]++;
+        }
+        var dictcc2 = new Dictionary<int, int>();
+        foreach (var count in dict2.Values)
+        {
+            dictcc2.TryAdd(count, 0);
+            dictcc2[count]++;
+        }
+        return dictcc1.Keys.All(k => 
+            dictcc2.ContainsKey(k) && 
+            dictcc1[k] == dictcc2[k]);
     }
 }
