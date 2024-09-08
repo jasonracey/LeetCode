@@ -1334,21 +1334,135 @@ public static class Solutions
         return [ret1, ret2];
     }
     
+    public static bool UniqueOccurrences(int[] arr) 
+    {
+        /*
+        Given an array of integers arr, return true if the number of occurrences of each value in the array is unique 
+        or false otherwise.
+
+        Example 1:
+        Input: arr = [1,2,2,1,1,3]
+        Output: true
+        Explanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of 
+        occurrences.
+        
+        Example 1b:
+        Input: arr = [a,b,b,a,a,c]
+        Output: true
+        Explanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of 
+        occurrences.
+        
+        Example 2:
+        Input: arr = [1,2]
+        Output: false
+        
+        Example 3:
+        Input: arr = [-3,0,1,-3,1,1,1,-3,10,0]
+        Output: true
+        */
+        
+        // iterate over array [a,b,b,a,a,c]
+        // store count of each element in dict<T,int> [a,3][b,2][c,1]
+        // iterate over dict values
+        // try store count of each element in set<int> [3,2,1]
+        // return true if all can be added
+        
+        var elementCounts = new Dictionary<int, int>();
+
+        foreach (var num in arr)
+        {
+            elementCounts.TryAdd(num, 0);
+            elementCounts[num]++;
+        }
+        
+        var uniqueCounts = new HashSet<int>();
+
+        return elementCounts.Values.All(count => 
+            uniqueCounts.Add(count));
+    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public static bool CloseStrings(string word1, string word2) {
+        /*
+        Two strings are considered close if you can attain one from the other using the following operations:
+
+        Operation 1: Swap any two existing characters.
+        For example, abcde -> aecdb
+        You can swap b and e to get the other string.
+        
+        Operation 2: Transform every occurrence of one existing character into another existing character, and do 
+        the same with the other character.
+        For example, aacabb -> bbcbaa (all a's turn into b's, and all b's turn into a's)
+        You can use the operations on either string as many times as necessary.
+
+        Given two strings, word1 and word2, return true if word1 and word2 are close, and false otherwise.
+
+        Example 1:
+        Input: word1 = "abc", word2 = "bca"
+        Output: true
+        Explanation: You can attain word2 from word1 in 2 operations.
+        Apply Operation 1: "abc" -> "acb"
+        Apply Operation 1: "acb" -> "bca"   
+
+        Example 2:
+        Input: word1 = "a", word2 = "aa"
+        Output: false
+        Explanation: It is impossible to attain word2 from word1, or vice versa, in any number of operations.
+
+        Example 3:
+                       "aabbbc"
+        Input: word1 = "cabbba" [c,1][a,2][b,3], word2 = "abbccc" [a,1][b,2][c,3]
+        Output: true
+        Explanation: You can attain word2 from word1 in 3 operations.
+        Apply Operation 1: "cabbba" -> "caabbb" // group the chars
+        Apply Operation 2: "caabbb" -> "baaccc" // 
+        Apply Operation 3: "baaccc" -> "abbccc"
+        */
+        
+        // false if strings are not same length (Example 2)
+        if (word1.Length != word2.Length)
+            return false;
+        
+        // true if we can make them equal by transform (Example 3)
+        // Input: word1 = "cabbba" [c,1][a,2][b,3], word2 = "abbccc" [a,1][b,2][c,3]
+        // Input: word1 = "uau" [u,2][a,1], word2 = "ssx" [s,2][x,1]
+        var dict1 = new Dictionary<char, int>();
+        foreach (var c in word1)
+        {
+            dict1.TryAdd(c, 0);
+            dict1[c]++;
+        }
+        var dict2 = new Dictionary<char, int>();
+        foreach (var c in word2)
+        {
+            dict2.TryAdd(c, 0);
+            dict2[c]++;
+        }
+        
+        if (dict1.Keys.Count != dict2.Keys.Count)
+            return false;
+        
+        // every character must exist in the other array
+        var keys1 = dict1.Keys.ToArray();
+        var keys2 = dict2.Keys.ToArray();
+        Array.Sort(keys1);
+        Array.Sort(keys2);
+        for (var i = 0; i < keys1.Length; i++)
+        {
+            if (keys1[i] != keys2[i])
+                return false;
+        }
+        
+        // every count must exist in the other array
+        var values1 = dict1.Values.ToArray();
+        var values2 = dict2.Values.ToArray();
+        Array.Sort(values1);
+        Array.Sort(values2);
+        for (var i = 0; i < values1.Length; i++)
+        {
+            if (values1[i] != values2[i])
+                return false;
+        }
+
+        return true;
+    }
 }

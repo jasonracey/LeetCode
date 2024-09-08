@@ -237,4 +237,24 @@ public class SolutionsTests
         result[0].Should().Equal(expected[0]);
         result[1].Should().Equal(expected[1]);
     }
+    
+    [DataTestMethod]
+    [DataRow(new[]{1,2,2,1,1,3}, true)]
+    [DataRow(new[]{1,2}, false)]
+    [DataRow(new[]{-3,0,1,-3,1,1,1,-3,10,0}, true)]
+    public void UniqueOccurrencesTests(int[] nums, bool expected)
+    {
+        UniqueOccurrences(nums).Should().Be(expected);
+    }
+    
+    [DataTestMethod]
+    [DataRow("abc", "bca", true)]
+    [DataRow("a", "aa", false)]
+    [DataRow("cabbba", "abbccc", true)]
+    [DataRow("uau", "ssx", false)]
+    [DataRow("mkmczky", "cckcmmy", false)]
+    public void CloseStringsTests(string word1, string word2, bool expected)
+    {
+        CloseStrings(word1, word2).Should().Be(expected);
+    }
 }
