@@ -1480,4 +1480,66 @@ public static class Solutions
             dictcc2.ContainsKey(k) && 
             dictcc1[k] == dictcc2[k]);
     }
+    
+    public static int EqualPairs(int[][] grid) 
+    {
+        /*
+        Given a 0-indexed n x n integer matrix grid, return the number of pairs (ri, cj) such that row ri 
+        and column cj are equal.
+
+        A row and column pair is considered equal if they contain the same elements in the same order 
+        (i.e., an equal array).
+
+        Input: grid = [[3,2,1],[1,7,6],[2,7,7]]
+        Output: 1
+        Explanation: There is 1 equal row and column pair:
+        - (Row 2, Column 1): [2,7,7]
+
+        Input: grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]
+        Output: 3
+        Explanation: There are 3 equal row and column pairs:
+        - (Row 0, Column 0): [3,1,2,2]
+        - (Row 2, Column 2): [2,4,2,2]
+        - (Row 3, Column 2): [2,4,2,2]
+        */
+        var count = 0;
+        
+        // constraints guarantee a square matrix
+        var size = grid.Length;
+        
+        // for each row
+        for (var rowIndex = 0; rowIndex < size; rowIndex++)
+        {
+            // compare row cell values with col cell values
+            var colIndex = 0;
+            var cellIndex = 0;
+            while (cellIndex < size && colIndex < size)
+            {
+                var valueRow = grid[rowIndex][cellIndex];
+                var valueCol = grid[cellIndex][colIndex];
+                
+                if (valueRow != valueCol)
+                {
+                    colIndex++; // move to next column
+                    cellIndex = 0; // start check over
+                    continue;
+                }
+
+                // all values in row matched all values in col
+                if (cellIndex == size - 1)
+                {
+                    count++; // found match
+
+                    colIndex++; // move to next column
+                    cellIndex = 0; // start check over
+                    continue;
+                }
+
+                // curr values match, move to next cell
+                cellIndex++;
+            }
+        }
+
+        return count;
+    }
 }

@@ -258,4 +258,17 @@ public class SolutionsTests
     {
         CloseStrings(word1, word2).Should().Be(expected);
     }
+    
+    public static IEnumerable<object[]> EqualPairsData()
+    {
+        yield return [new int[][] { [3,2,1], [1,7,6], [2,7,7] }, 1];
+        yield return [new int[][] { [3,1,2,2], [1,4,4,5], [2,4,2,2], [2,4,2,2] }, 3];
+        yield return [new int[][] { [3,1,2,2], [1,4,4,4], [2,4,2,2], [2,5,2,2] }, 3];
+    }
+    [DataTestMethod]
+    [DynamicData(nameof(EqualPairsData), DynamicDataSourceType.Method)]
+    public void EqualPairsTests(int[][] grid, int expected)
+    {
+        EqualPairs(grid).Should().Be(expected);
+    }
 }
