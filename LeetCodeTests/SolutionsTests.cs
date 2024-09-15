@@ -271,4 +271,12 @@ public class SolutionsTests
     {
         EqualPairs(grid).Should().Be(expected);
     }
+    
+    [DataTestMethod]
+    [DataRow("leet**cod*e", "lecoe")]
+    [DataRow("erase*****", "")]
+    public void RemoveStarsTests(string s, string expected)
+    {
+        RemoveStars(s).Should().Be(expected);
+    }
 }

@@ -1542,4 +1542,82 @@ public static class Solutions
 
         return count;
     }
+    
+    public static string RemoveStars(string s) {
+        /*
+        You are given a string s, which contains stars *.
+
+        In one operation, you can:
+
+        Choose a star in s.
+        Remove the closest non-star character to its left, as well as remove the star itself.
+        Return the string after all stars have been removed.
+
+        Note:
+
+        The input will be generated such that the operation is always possible.
+        It can be shown that the resulting string will always be unique.
+
+        Example 1:
+        Input: s = "leet**cod*e"
+            -> le ee et t*
+            -> l e e _ 
+        Output: "lecoe"
+        Explanation: Performing the removals from left to right:
+        - The closest character to the 1st star is 't' in "leet**cod*e". s becomes "lee*cod*e".
+        - The closest character to the 2nd star is 'e' in "lee*cod*e". s becomes "lecod*e".
+        - The closest character to the 3rd star is 'd' in "lecod*e". s becomes "lecoe".
+        There are no more stars, so we return "lecoe".
+
+        Example 2:
+        Input: s = "erase*****"
+        Output: ""
+        Explanation: The entire string is removed, so we return an empty string.
+
+        Constraints:
+        1 <= s.length <= 105
+        s consists of lowercase English letters and stars *.
+        The operation above can be performed on s.
+        */
+        
+        // algo 1
+        // split s into char array
+        // iterate over array
+        // 2 indexes
+        // one is curr and one is next
+        // if next is not * append curr to new string
+        // if next is * then skip curr and set starFound flag
+        // until end of string
+        // if starFound repeat iteration
+        // else return new string
+        
+        // algo 2 <- better because it iterates over string once, cost is reversing string
+        // iterate over s right to left
+        // 1 index
+        // if curr is not * then append to new str
+        // else skip while star, and keep star count
+        // skip N non-star chars
+        // if curr is not * then append to new s else keep skipping until front of s
+        // return new str
+
+        var sb = new StringBuilder();
+
+        var currStarCount = 0;
+
+        for (var i = s.Length - 1; i >= 0; i--)
+        {
+            var curr = s[i];
+            if (curr == '*')
+                currStarCount++;
+            else
+            {
+                if (currStarCount == 0)
+                    sb.Append(curr);
+                else
+                    currStarCount--;
+            }
+        }
+
+        return new string(sb.ToString().Reverse().ToArray());
+    }
 }
