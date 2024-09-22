@@ -1,5 +1,6 @@
 using System.IO.Pipes;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LeetCode;
 
@@ -1619,5 +1620,198 @@ public static class Solutions
         }
 
         return new string(sb.ToString().Reverse().ToArray());
+    }
+
+    public static int[] AsteroidCollision(int[] asteroids)
+    {
+        /*
+        We are given an array asteroids of integers representing asteroids in a row.
+
+        For each asteroid, the absolute value represents its size, and the sign represents
+        its direction (positive meaning right, negative meaning left). Each asteroid moves
+        at the same speed.
+
+        Find out the state of the asteroids after all collisions. If two asteroids meet,
+        the smaller one will explode. If both are the same size, both will explode. Two
+        asteroids moving in the same direction will never meet.
+
+        Example 1:
+        Input: asteroids = [5,10,-5]
+        Output: [5,10]
+        Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
+
+        Example 2:
+        Input: asteroids = [8,-8]
+        Output: []
+        Explanation: The 8 and -8 collide exploding each other.
+
+        Example 3:
+        Input: asteroids = [10,2,-5]
+        Output: [10]
+        Explanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
+
+        Constraints:
+        2 <= asteroids.length <= 104
+        -1000 <= asteroids[i] <= 1000
+        asteroids[i] != 0
+        */
+        
+        /*
+        //
+        // brute-force solution that passes all tests
+        //
+        var haveCollision = false;
+
+        do
+        {
+            var survivors = new List<int>();
+
+            // Look for a collision
+            for (int leftIndex = 0, rightIndex = 1; rightIndex < asteroids.Length; leftIndex++, rightIndex++)
+            {
+                var left = asteroids[leftIndex];
+                var right = asteroids[rightIndex];
+
+                haveCollision = left > 0 && right < 0;
+                
+                if (haveCollision)
+                {
+                    var absRight = Math.Abs(right);
+
+                    // If they're equal, both are destroyed so add nothing, otherwise add larger
+                    if (left != absRight)
+                        survivors.Add(left > absRight ? left : right);
+                    
+                    // Add remaining items for next do-while iteration
+                    for (var i = rightIndex + 1; i < asteroids.Length; i++)
+                        survivors.Add(asteroids[i]);
+
+                    // End current collision check
+                    break;
+                }
+                
+                survivors.Add(left);
+                
+                if (rightIndex == asteroids.Length - 1)
+                    survivors.Add(right);
+            }
+
+            asteroids = survivors.ToArray();
+
+        } while (haveCollision && asteroids.Length > 1);
+        
+        return asteroids;
+        */
+            
+        //
+        // l337 solution that uses a stack
+        //
+        /*
+        From AlgoMonster:
+        To solve this problem, we use a stack data structure that will help us manage the asteroid collisions 
+        efficiently. The stack is chosen because collisions affect the asteroids in a last-in, first-out manner: 
+        the most recently moving right asteroid can collide with the newly encountered left-moving one.
+        */
+        
+        // for item in array
+        // if first push onto stack
+        // if pos-to-neg perform collision
+        // if any survivor push onto stack
+        // next item
+        
+        // 5
+        // 10 <~ 5
+        // -5 collision 10 <~ 5
+        // 10 <~ 5
+        // end of list
+        // {10,5}
+        // {5,10}
+        
+        // -2
+        // 1 <~ -2
+        // -2 collision 1 <~ -2
+        // -2 <~ -2
+        // -3 <~ -2 <~ -2
+        // end of list
+        // {-3,-2,-2}
+        // {-2,-2,-3}
+        
+         // -2
+         // 1 <~ -2
+         // -1 collision 1 <~ -2
+         // -2
+         // -2 <~ -2
+         // end of list
+         // {-2,-2}
+         // {-2,-2}
+         
+         // -2
+         // 2 <~ -2
+         // -1 collision 2 <~ -2
+         // 2 <~ -2
+         // -2 collision 2 <~ -2
+         // -2
+         // end of list
+         // {-2}
+         // {-2}
+         
+         // 1
+         // -2 collision 1
+         // -2
+         // -2 <~ -2
+         // -2 <~ -2 <~ -2
+         // end of list
+         // {-2,-2,-2}
+         // {-2,-2,-2}
+         
+         // 10
+         // 2 <~ 10
+         // -5 collision 2 <~ 10
+         // -5 collision 10
+         // end of list
+         // {10}
+         
+         var survivors = new Stack<int>();
+
+         foreach (var right in asteroids)
+         {
+             if (survivors.Count == 0)
+             {
+                 survivors.Push(right);
+             }
+             else
+             {
+                 var left = survivors.Pop();
+                 var collision = right < 0 && left > 0;
+                 if (collision)
+                 {
+                     var absRight = Math.Abs(right);
+                     if (left == absRight) continue;
+                     do
+                     {
+                         if (left == absRight) break;
+                         var survivor = left > absRight ? left : right;
+                         collision = survivor < 0 && survivors.Count > 0 && survivors.Peek() > 0;
+                         if (collision)
+                         {
+                             left = survivors.Pop();
+                         }
+                         else
+                         {
+                             survivors.Push(survivor);
+                         }
+                     } while (collision);
+                 }
+                 else
+                 {
+                     survivors.Push(left);
+                     survivors.Push(right);
+                 }
+             }
+         }
+
+         return survivors
+             .Reverse()
+             .ToArray();
     }
 }

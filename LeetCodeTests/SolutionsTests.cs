@@ -279,4 +279,18 @@ public class SolutionsTests
     {
         RemoveStars(s).Should().Be(expected);
     }
+    
+    [DataTestMethod]
+    [DataRow(new[]{5,10,-5}, new[]{5,10})]
+    [DataRow(new[]{8,-8}, new int[]{})]
+    [DataRow(new[]{10,2,-5}, new []{10})]
+    [DataRow(new[]{-2,1,-2,-3}, new []{-2,-2,-3})]
+    [DataRow(new[]{-2,1,-1,-2}, new []{-2,-2})]
+    [DataRow(new[]{-2,2,-1,-2}, new []{-2})]
+    [DataRow(new[]{1,-2,-2,-2}, new []{-2,-2,-2})]
+    [DataRow(new[]{-2,2,1,-2}, new []{-2})]
+    public void AsteroidCollisionTests(int[] asteroids, int[] expected)
+    {
+        AsteroidCollision(asteroids).Should().Equal(expected);
+    }
 }
