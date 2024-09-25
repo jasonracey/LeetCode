@@ -1,5 +1,7 @@
+using System.Collections;
 using System.IO.Pipes;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace LeetCode;
@@ -1813,5 +1815,158 @@ public static class Solutions
          return survivors
              .Reverse()
              .ToArray();
+    }
+
+    public record Node<T>(
+        Node<T>? Left,
+        Node<T>? Right,
+        T? Value = default)
+    {
+        public Node<T>? Left { get; set; } = Left;
+        public Node<T>? Right { get; set; } = Right;
+        public T? Value { get; set; } = Value;
+    }
+    
+    public static int TreeHeight<T>(Node<T>? node)
+    {
+        if (node == null) return 0;
+        return 1 + Math.Max(
+            TreeHeight(node.Left), 
+            TreeHeight(node.Right));
+    }
+
+    public static void Preorder<T>(Node<T>? node)
+    {
+        if (node == null) return;
+        Console.WriteLine(node.Value);
+        Preorder(node.Left);
+        Preorder(node.Right);
+    }
+    
+    public static void PreorderWithoutRecursion<T>(Node<T>? node)
+    {
+        if (node == null) return;
+        
+        Console.WriteLine(node.Value);
+
+        var curr = node.Left;
+        if (curr != null)
+            Console.WriteLine(curr.Value);
+        
+        while (curr != null)
+        {
+            if (curr.Left != null)
+                Console.WriteLine(curr.Left.Value);
+            if (curr.Right != null)
+                Console.WriteLine(curr.Right.Value);
+            curr = curr.Left;
+        }
+        
+        curr = node.Right;
+        if (curr != null)
+            Console.WriteLine(curr.Value);
+        
+        while (curr != null)
+        {
+            if (curr.Left != null)
+                Console.WriteLine(curr.Left.Value);
+            if (curr.Right != null)
+                Console.WriteLine(curr.Right.Value);
+            curr = curr.Left;
+        }
+    }
+    
+    public static void PreorderWithoutRecursionUsingStack<T>(Node<T>? node)
+    {
+        if (node == null) return;
+        var stack = new Stack<Node<T>>();
+        
+        stack.Push(node);
+
+        while (stack.Count > 0)
+        {
+            var curr = stack.Pop();
+            Console.WriteLine(curr.Value);
+            if (curr.Right != null)
+                stack.Push(curr.Right);
+            if (curr.Left != null)
+                stack.Push(curr.Left);
+        }
+    }
+    
+    public static void Inorder<T>(Node<T>? node)
+    {
+        if (node == null) return;
+        Inorder(node.Left);
+        Console.WriteLine(node.Value);
+        Inorder(node.Right);
+    }
+    
+    public static void Postorder<T>(Node<T>? node)
+    {
+        if (node == null) return;
+        Postorder(node.Left);
+        Postorder(node.Right);
+        Console.WriteLine(node.Value);
+    }
+    
+    public static void LowestCommonAncestor(Node<int>? node, int first, int second)
+    {
+        while (node != null)
+        {
+            if (first < node.Value && second < node.Value)
+                node = node.Left;
+            else if (first > node.Value && second > node.Value)
+                node = node.Right;
+            else
+            {
+                Console.WriteLine(node.Value);
+                return;
+            }
+        }
+    }
+    
+    private class IntNodeComparer : IComparer<Node<int>>
+    {
+        public int Compare(Node<int>? x, Node<int>? y)
+        {
+            return x?.Value != null && y?.Value != null 
+                ? x.Value.CompareTo(y.Value)
+                : 0;
+        }
+    }
+
+    public static Node<int> ToMinHeap(Node<int> node)
+    {
+        var count = Traverse(node, 0,null);
+        var arr = new Node<int>[count];
+        var _ = Traverse(node, 0, arr);
+        
+        Array.Sort(arr, new IntNodeComparer());
+        
+        // reassign children
+        for (var i = 0; i < arr.Length; i++)
+        {
+            // [0,1,2,3,4,5,6]
+            var leftIndex = 2 * i + 1;
+            var rightIndex = leftIndex + 1;
+            if (leftIndex < arr.Length)
+                arr[i].Left = arr[leftIndex];
+            if (rightIndex < arr.Length)
+                arr[i].Right = arr[rightIndex];
+        }
+        
+        return arr[0];
+    }
+
+    private static int Traverse(Node<int>? node, int count, Node<int>[]? arr)
+    {
+        if (node == null) return count;
+        if (arr != null)
+            arr[count] = node;
+        count++;
+        count = Traverse(node.Left, count, arr);
+        count = Traverse(node.Right, count, arr);
+        return count;
     }
 }

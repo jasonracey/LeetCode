@@ -293,4 +293,91 @@ public class SolutionsTests
     {
         AsteroidCollision(asteroids).Should().Equal(expected);
     }
+
+    [TestMethod]
+    public void TreeHeightTest()
+    {
+        var f = new Node<int>(null, null);
+        var g = new Node<int>(null, null);
+        var h = new Node<int>(null, null);
+        var d = new Node<int>(f, g);
+        var e = new Node<int>(null, h);
+        var b = new Node<int>(null, null);
+        var c = new Node<int>(d, e);
+        var a = new Node<int>(b, c);
+        
+        var max = TreeHeight(a);
+        
+        max.Should().Be(4);
+    }
+    
+    private static readonly Node<int> N110 = new(null, null, 110);
+    private static readonly Node<int> N125 = new(N110, null, 125);
+    private static readonly Node<int> N175 = new(null, null, 175);
+    private static readonly Node<int> N150 = new(N125, N175, 150);
+    private static readonly Node<int> N25 = new(null, null, 25);
+    private static readonly Node<int> N75 = new(null, null, 75);
+    private static readonly Node<int> N50 = new(N25, N75, 50);
+    private static readonly Node<int> N100 = new(N50, N150, 100);
+
+    [TestMethod]
+    public void PreorderTest()
+    {
+        Preorder(N100);
+    }
+    
+    [TestMethod]
+    public void PreorderWithoutRecursionTest()
+    {
+        PreorderWithoutRecursion(N100);
+    }
+    
+    [TestMethod]
+    public void PreorderWithoutRecursionUsingStackTest()
+    {
+        PreorderWithoutRecursionUsingStack(N100);
+    }
+    
+    [TestMethod]
+    public void InorderTest()
+    {
+        Inorder(N100);
+    }
+    
+    [TestMethod]
+    public void PostorderTest()
+    {
+        Postorder(N100);
+    }
+    
+    [TestMethod]
+    public void LowestCommonAncestorTest()
+    {
+        Node<int> n10 = new(null, null, 10);
+        Node<int> n14 = new(null, null, 14);
+        Node<int> n12 = new(n10, n14, 12);
+        Node<int> n4 = new(null, null, 4);
+        Node<int> n8 = new(n4, n12, 8);
+        Node<int> n22 = new(null, null, 22);
+        Node<int> n20 = new(n8, n22, 20);
+        
+        LowestCommonAncestor(n20, 4, 14);
+    }
+    
+    [TestMethod]
+    public void ToMinHeapTests()
+    {
+        Node<int> n10 = new(null, null, 10);
+        Node<int> n14 = new(null, null, 14);
+        Node<int> n12 = new(n10, n14, 12);
+        Node<int> n4 = new(null, null, 4);
+        Node<int> n8 = new(n4, n12, 8);
+        Node<int> n22 = new(null, null, 22);
+        Node<int> n20 = new(n8, n22, 20);
+        
+        var root = ToMinHeap(n20);
+
+        root.Should().NotBeNull();
+        root.Value.Should().Be(4);
+    }
 }
