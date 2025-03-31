@@ -27,4 +27,19 @@ public class EasyTests
     {
         PalindromeNumber(x).Should().Be(expected);
     }
+
+    [DataTestMethod]
+    [DataRow("XIV", 14)]
+    [DataRow("XXX", 30)]
+    [DataRow("XXI", 21)]
+    [DataRow("III", 3)]
+    [DataRow("LVIII", 58)]
+    [DataRow("MCMXCIV", 1994)]
+    [DataRow("MCMXCVI", 1996)]
+    [DataRow("MDCXCV", 1695)]
+    [DataRow("D", 500)]
+    public void RomanToIntegerTests(string roman, int expected)
+    {
+        RomanToInteger(roman).Should().Be(expected);
+    }
 }
