@@ -6,9 +6,9 @@ namespace LeetCodeTests;
 public class EasyTests
 {
     [DataTestMethod]
-    [DataRow(new[] { 2,7,11,15 }, 9, new[] { 0, 1})]
-    [DataRow(new[] { 3,2,4 }, 6, new[] { 1, 2})]
-    [DataRow(new[] { 3,3 }, 6, new[] { 0, 1})]
+    [DataRow(new[] { 2, 7, 11, 15 }, 9, new[] { 0, 1 })]
+    [DataRow(new[] { 3, 2, 4 }, 6, new[] { 1, 2 })]
+    [DataRow(new[] { 3, 3 }, 6, new[] { 0, 1 })]
     public void TwoSumTests(int[] nums, int target, int[] expected)
     {
         TwoSum(nums, target).Should().Equal(expected);
@@ -41,5 +41,15 @@ public class EasyTests
     public void RomanToIntegerTests(string roman, int expected)
     {
         RomanToInteger(roman).Should().Be(expected);
+    }
+
+    [DataTestMethod]
+    [DataRow(new[] { "flower", "flow", "flight" }, "fl")]
+    [DataRow(new[] { "dog", "racecar", "car" }, "")]
+    [DataRow(new[] { "" }, "")]
+    [DataRow(new string[] { "a" }, "a")]
+    public void LongestCommonPrefixTests(string[] sets, string expected)
+    {
+        LongestCommonPrefix(sets).Should().Be(expected);
     }
 }

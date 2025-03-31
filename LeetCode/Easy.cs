@@ -237,5 +237,60 @@ public static class Easy
         return sum;
     }
 
+    public static string LongestCommonPrefix(string[] strs)
+    {
+        /*
+        Write a function to find the longest common prefix string amongst an array of strings.
 
+        If there is no common prefix, return an empty string "".
+
+        Example 1:
+        Input: strs = ["flower","flow","flight"]
+        Output: "fl"
+
+        Example 2:
+        Input: strs = ["dog","racecar","car"]
+        Output: ""
+        Explanation: There is no common prefix among the input strings.
+
+        Constraints:
+        1 <= strs.length <= 200
+        0 <= strs[i].length <= 200
+        strs[i] consists of only lowercase English letters if it is non-empty.
+        */
+
+        // iterate over curr index of each string
+        // if past string return result
+        // if mismatch return result
+        // else append c and increment index
+
+        var result = string.Empty;
+        var i = 0;
+        if (strs.Length < 0)
+            return result;
+        if (strs[0].Length == 0)
+            return result;
+        char c = strs[0][0];
+        while (true)
+        {
+            foreach (var str in strs)
+            {
+                if (str.Length == 0)
+                    return result;
+
+                if (i >= str.Length)
+                    return result;
+
+                if (c != str[i])
+                    return result;
+
+                c = str[i];
+            }
+            result += c;
+            i++;
+            if (i >= strs[0].Length)
+                return result;
+            c = strs[0][i];
+        }
+    }
 }
