@@ -1,4 +1,6 @@
-﻿namespace LeetCode;
+﻿using System.Runtime.InteropServices;
+
+namespace LeetCode;
 
 public static class Easy
 {
@@ -292,5 +294,64 @@ public static class Easy
                 return result;
             c = strs[0][i];
         }
+    }
+
+    public static bool IsValidParens(string s)
+    {
+        /*
+        Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+        An input string is valid if:
+
+        Open brackets must be closed by the same type of brackets.
+        Open brackets must be closed in the correct order.
+        Every close bracket has a corresponding open bracket of the same type.
+
+        Example 1:
+        Input: s = "()"
+        Output: true
+
+        Example 2:
+        Input: s = "()[]{}"
+        Output: true
+
+        Example 3:
+        Input: s = "(]"
+        Output: false
+
+        Example 4:
+        Input: s = "([])"
+        Output: true
+
+        Example 5:
+        Input: s = "([)]" // brackets cannot intersect, one set must enclose another, this means the inner (second) must close before the outer (first)
+        Output: false
+        */
+
+        // open count must equal close count by type
+        // outer set's bracket must close after inner set's closing bracket
+        /*
+         ) - don't push on stack, just pop curr
+         ] - don't push on stack, just pop curr
+         [
+         (
+         */
+        var stack = new Stack<char>();
+
+        foreach (var c in s)
+        {
+            if (stack.Count == 0 || c == '(' || c == '{' || c == '[')
+                stack.Push(c);
+            else if (c == ')' && stack.Peek() == '(')
+                stack.Pop();
+            else if (c == ']' && stack.Peek() == '[')
+                stack.Pop();
+            else if (c == '}' && stack.Peek() == '{')
+                stack.Pop();
+            else
+                stack.Push(c);
+        }
+
+        return stack.Count == 0;
     }
 }

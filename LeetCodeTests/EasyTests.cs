@@ -52,4 +52,16 @@ public class EasyTests
     {
         LongestCommonPrefix(sets).Should().Be(expected);
     }
+
+    [DataTestMethod]
+    [DataRow("()", true)]
+    [DataRow("()[]{}", true)]
+    [DataRow("(]", false)]
+    [DataRow("([])", true)]
+    [DataRow("([)]", false)]
+    [DataRow("(])", false)]
+    public void IsValidParensTests(string s, bool expected)
+    {
+        IsValidParens(s).Should().Be(expected);
+    }
 }
