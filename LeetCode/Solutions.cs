@@ -1965,4 +1965,49 @@ public static class Solutions
         count = Traverse(node.Right, count, arr);
         return count;
     }
+
+    public static bool IsPalindrome(string s)
+    {
+        // a palindrome is same fwd and back: abba
+        // todo: case-insensitive?
+        for (int i = 0, j = s.Length - 1; i < j; i++, j--)
+        {
+            if (s[i] != s[j])
+                return false;
+        }
+
+        return true;
+    }
+
+    public static bool IsAnagram(string s1, string s2)
+    {
+        if (s1.Length != s2.Length)
+            return false;
+        
+        // iterate over s1
+        // every character to dictionary with count
+        // iterate over s2
+        // decrement every character count
+        // all counts should be zero
+
+        var chars = new Dictionary<char, int>();
+        foreach (var c in s1)
+        {
+            chars.TryAdd(c, 0);
+            chars[c]++;
+        }
+
+        foreach (var c in s2)
+        {
+            if (!chars.ContainsKey(c))
+                return false;
+            
+            chars[c]--;
+            
+            if (chars[c] < 0)
+                return false;
+        }
+
+        return chars.Values.All(count => count == 0);
+    }
 }
