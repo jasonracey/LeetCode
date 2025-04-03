@@ -64,4 +64,12 @@ public class EasyTests
     {
         IsValidParens(s).Should().Be(expected);
     }
+
+    [DataTestMethod]
+    [DataRow(new[] { 1, 1, 2 }, 2)]
+    [DataRow(new[] { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 }, 5)]
+    public void RemoveDuplicatesTests(int[] nums, int expected)
+    {
+        RemoveDuplicates(nums).Should().Be(expected);
+    }
 }
