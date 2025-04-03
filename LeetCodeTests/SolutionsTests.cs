@@ -380,4 +380,24 @@ public class SolutionsTests
         root.Should().NotBeNull();
         root.Value.Should().Be(4);
     }
+    
+    [DataTestMethod]
+    [DataRow("a", true)]
+    [DataRow("aa", true)]
+    [DataRow("ab", false)]
+    [DataRow("aba", true)]
+    [DataRow("abba", true)]
+    public void IsPalindromeTests(string s, bool expected)
+    {
+        IsPalindrome(s).Should().Be(expected);
+    }
+    
+    [DataTestMethod]
+    [DataRow("soundgarden", "nudedragons", true)]
+    [DataRow("soundgarden", "nudedragonss", false)]
+    [DataRow("soundgarden", "nudedragonz", false)]
+    public void IsAnagramTests(string s1, string s2, bool expected)
+    {
+        IsAnagram(s1, s2).Should().Be(expected);
+    }
 }
