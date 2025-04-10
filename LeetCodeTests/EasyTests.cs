@@ -72,4 +72,15 @@ public class EasyTests
     {
         RemoveDuplicates(nums).Should().Be(expected);
     }
+
+    [DataTestMethod]
+    [DataRow(new int[] { }, 0, 0)]
+    [DataRow(new[] { 1 }, 1, 0)]
+    [DataRow(new[] { 3, 2, 2, 3 }, 3, 2)]
+    [DataRow(new[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2, 5)]
+    [DataRow(new[] { 2, 2, 3 }, 2, 1)]
+    public void RemoveElementTests(int[] nums, int val, int expected)
+    {
+        RemoveElement(nums, val).Should().Be(expected);
+    }
 }
