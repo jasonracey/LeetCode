@@ -498,4 +498,64 @@ public static class Easy
 
         return nums.Length - countVal;
     }
+
+    public static int StrStr(string haystack, string needle)
+    {
+        /*
+        Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+        Example 1:
+        Input: haystack = "sadbutsad", needle = "sad"
+        Output: 0
+        Explanation: "sad" occurs at index 0 and 6.
+        The first occurrence is at index 0, so we return 0.
+
+        Example 2:
+        Input: haystack = "leetcode", needle = "leeto"
+        Output: -1
+        Explanation: "leeto" did not occur in "leetcode", so we return -1.
+
+        Constraints:
+        1 <= haystack.length, needle.length <= 104
+        haystack and needle consist of only lowercase English characters.
+        */
+
+        // 2 indexes - start curr
+        // compare h[curr] to n[curr]
+        // if match
+        //   increment curr until end of needle
+        //   return start
+        // else
+        //   increment start
+
+        var start = 0;
+        while (start < haystack.Length && haystack.Length >= needle.Length)
+        {
+            for (var i = 0; i < needle.Length; i++)
+            {
+                if (start + i >= haystack.Length)
+                {
+                    break;
+                }
+                
+                if (i >= needle.Length)
+                {
+                    break;
+                }
+
+                if (haystack[start + i] != needle[i])
+                {
+                    break;
+                }
+                
+                if (i == needle.Length - 1)
+                {
+                    return start;
+                }
+            }
+            start++;
+        }
+
+        return -1;
+    }
 }

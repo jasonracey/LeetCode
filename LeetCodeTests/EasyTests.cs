@@ -83,4 +83,17 @@ public class EasyTests
     {
         RemoveElement(nums, val).Should().Be(expected);
     }
+
+    [DataTestMethod]
+    [DataRow("sadbutsad", "sad", 0)]
+    [DataRow("leetcode", "leeto", -1)]
+    [DataRow("bubutsad", "but", 2)]
+    [DataRow("aaa", "aaaa", -1)]
+    [DataRow("mississippi", "issip", 4)]
+    [DataRow("mississippi", "issipi", -1)]
+    [DataRow("ippi", "ipi", -1)]
+    public void StrStrTests(string haystack, string needle, int expected)
+    {
+        StrStr(haystack, needle).Should().Be(expected);
+    }
 }
