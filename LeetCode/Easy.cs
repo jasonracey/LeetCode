@@ -558,4 +558,84 @@ public static class Easy
 
         return -1;
     }
+
+    public static int SearchInsert(int[] nums, int target)
+    {
+        /*
+        Given a sorted array of distinct integers and a target value, 
+        return the index if the target is found. If not, return the 
+        index where it would be if it were inserted in order.
+
+        You must write an algorithm with O(log n) runtime complexity.
+
+        Example 1:
+        Input: nums = [1,3,5,6], target = 5
+        Output: 2
+
+        Example 2:
+        Input: nums = [1,3,5,6], target = 2
+        Output: 1
+
+        Example 3:
+        Input: nums = [1,3,5,6], target = 7
+        Output: 4
+
+        Constraints:
+        1 <= nums.length <= 10^4
+        -104 <= nums[i] <= 10^4
+        nums contains distinct values sorted in ascending order.
+        -104 <= target <= 10^4
+        */
+
+        // O(n) solution
+        //var i = 0;
+        //while (i < nums.Length)
+        //{
+        //    if (target <= nums[i])
+        //        return i;
+        //    i++;
+        //}
+        //return i;
+
+        // O(log n) solution
+        // need to track currMaxIndex currMinIndex to narrow the range on each iteration
+        var currIndex = nums.Length / 2;
+        var currMinIndex = 0;
+        var currMaxIndex = nums.Length - 1;
+        while (currIndex >= 0 && currIndex < nums.Length)
+        {
+            if (currIndex == 0)
+            {
+                return target <= nums[currIndex] 
+                    ? currIndex 
+                    : currIndex + 1;
+            }
+            else if (target > nums[currIndex - 1] && target <= nums[currIndex])
+            {
+                return currIndex;
+            }
+            else if (target == nums[currIndex - 1])
+            {
+                return currIndex - 1;
+            }
+            else if (target < nums[currIndex])
+            {
+                // search middle of range to the left
+                currMaxIndex = currIndex; 
+                currIndex = (currIndex - currMinIndex) / 2;
+            }
+            else
+            {
+                // search middle of range to the right
+                currMinIndex = currIndex;
+                currIndex = (currIndex + currMaxIndex) / 2;
+
+                // prevent endless loop
+                if (currIndex == currMinIndex)
+                    currIndex++;
+            }
+        }
+        // target not found, append to end of array
+        return nums.Length;
+    }
 }
