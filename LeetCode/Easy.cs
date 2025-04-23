@@ -689,6 +689,82 @@ public static class Easy
         }
         return len;
     }
+    
+    public static int MySqrt(int x) 
+    {
+        /*
+        Given a non-negative integer x, return the square root of x rounded down to the nearest integer. 
+        The returned integer should be non-negative as well.
+        You must not use any built-in exponent function or operator.
+        For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.
+
+        Example 1:
+        Input: x = 4
+        Output: 2
+        Explanation: The square root of 4 is 2, so we return 2.
+
+        Example 2:
+        Input: x = 8
+        Output: 2
+        Explanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
+
+        Constraints:
+        0 <= x <= 23^1 - 1
+        */
+
+        // min = 0, curr = x/2, max = x
+        // if curr^2 == x then return curr
+        // else
+        // if curr^2 > x && curr-1^2 < x return curr-1
+        // else
+        // if curr^2 < x && curr+1^2 > x return curr
+        // else
+        // if curr^2 < x then go halfway between curr and max: min = curr, curr = curr + curr/2 
+        // else
+        // if curr^2 > x then go halfway between curr and min: max = curr, curr = curr - curr/2
+        var min = 0;
+        var max =  (int)Math.Sqrt(int.MaxValue);
+        var curr = x == 0 
+            ? 0 
+            : x / 2 > 0 
+                ? max / 2 
+                : 1;
+        var prev = 0;
+
+        while (true)
+        {
+            if (curr == max || curr * curr == x)
+            {
+                return curr;
+            }
+            
+            if (curr * curr > x)
+            {
+                if ((curr - 1) * (curr - 1) < x)
+                {
+                    return curr - 1;
+                }
+                max = curr;
+                curr -= (curr - min) / 2;
+            }
+            else
+            {
+                if ((curr + 1) * (curr + 1) > x)
+                {
+                    return curr;
+                }
+                if ((curr + 1) * (curr + 1) == x)
+                {
+                    return curr + 1;
+                }
+                min = curr;
+                curr += (max - curr) / 2;
+                if (curr == prev)
+                    curr++;
+                prev = curr;
+            }
+        }
+    }
 
     public static int[] PlusOne(int[] digits)
     {

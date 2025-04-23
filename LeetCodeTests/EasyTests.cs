@@ -115,6 +115,24 @@ public class EasyTests
     {
         LengthOfLastWord(s).Should().Be(expected);
     }
+    
+    [DataTestMethod]
+    [DataRow(0, 0)]
+    [DataRow(1, 1)]
+    [DataRow(2, 1)]
+    [DataRow(3, 1)]
+    [DataRow(4, 2)]
+    [DataRow(5, 2)]
+    [DataRow(6, 2)]
+    [DataRow(7, 2)]
+    [DataRow(8, 2)]
+    [DataRow(9, 3)]
+    [DataRow(2147395600, 46340)]
+    [DataRow(2147483647, 46340)]
+    public void MySqrtTests(int i, int expected)
+    {
+        MySqrt(i).Should().Be(expected);
+    }
 
     [DataTestMethod]
     [DataRow(new[] { 1, 2, 3 }, new[] { 1, 2, 4 })]
