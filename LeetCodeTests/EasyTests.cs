@@ -115,4 +115,17 @@ public class EasyTests
     {
         LengthOfLastWord(s).Should().Be(expected);
     }
+
+    [DataTestMethod]
+    [DataRow(new[] { 1, 2, 3 }, new[] { 1, 2, 4 })]
+    [DataRow(new[] { 8, 9, 9 }, new[] { 9, 0, 0 })]
+    [DataRow(new[] { 9, 9, 9 }, new[] { 1, 0, 0, 0 })]
+    [DataRow(new[] { 4, 3, 2, 1 }, new[] { 4, 3, 2, 2 })]
+    [DataRow(new[] { 9 }, new[] { 1, 0 })]
+    [DataRow(new[] { 8, 9, 9, 9 }, new[] { 9, 0, 0, 0 })]
+    [DataRow(new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 1 })]
+    public void PlusOneTests(int[] digits, int[] expected)
+    {
+        PlusOne(digits).Should().Equal(expected);
+    }
 }
