@@ -146,4 +146,14 @@ public class EasyTests
     {
         PlusOne(digits).Should().Equal(expected);
     }
+
+    [DataTestMethod]
+    [DataRow(2, 2)]
+    [DataRow(3, 3)]
+    [DataRow(4, 5)]
+    [DataRow(5, 8)]
+    public void ClimbStairsTests(int num, int expected)
+    {
+        ClimbStairs(num).Should().Be(expected);
+    }
 }
