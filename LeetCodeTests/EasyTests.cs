@@ -147,13 +147,27 @@ public class EasyTests
         PlusOne(digits).Should().Equal(expected);
     }
 
+    // [DataTestMethod]
+    // [DataRow(2, 2)]
+    // [DataRow(3, 3)]
+    // [DataRow(4, 5)]
+    // [DataRow(5, 8)]
+    // public void ClimbStairsTests(int num, int expected)
+    // {
+    //     ClimbStairs(num).Should().Be(expected);
+    // }
+    
     [DataTestMethod]
-    [DataRow(2, 2)]
-    [DataRow(3, 3)]
-    [DataRow(4, 5)]
-    [DataRow(5, 8)]
-    public void ClimbStairsTests(int num, int expected)
+    [DataRow(new[] { 1, 2, 3, 0, 0, 0 }, 3, new[] { 2, 5, 6 }, 3, new[] { 1, 2, 2, 3, 5, 6 })]
+    [DataRow(new[] { 1 }, 1, new int[]{}, 0, new[] { 1 })]
+    [DataRow(new[] { 0 }, 0, new []{ 1 }, 1, new[] { 1 })]
+    [DataRow(new[] { 2, 0 }, 1, new []{ 1 }, 1, new[] { 1, 2 })]
+    [DataRow(new[] { 4,5,6,0,0,0 }, 3, new []{ 1,2,3 }, 3, new[] { 1,2,3,4,5,6 })]
+    [DataRow(new[] { 1,2,4,5,6,0 }, 5, new []{ 3 }, 1, new[] { 1,2,3,4,5,6 })]
+    [DataRow(new[] { 1,2,4,5,6,0,0,0 }, 5, new []{ 3,4,7 }, 3, new[] { 1,2,3,4,4,5,6,7 })]
+    public void MergeTests(int[] nums1, int m, int[] nums2, int n, int[] expected)
     {
-        ClimbStairs(num).Should().Be(expected);
+        Merge(nums1, m, nums2, n);
+        nums1.Should().Equal(expected);
     }
 }
