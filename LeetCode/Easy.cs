@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using LeetCode.Models;
 
 namespace LeetCode;
 
@@ -966,5 +967,110 @@ public static class Easy
         {
             nums1[i] = temp[i];
         }
+    }
+    
+    public static IList<int> InorderTraversalRecursive(TreeNode root) 
+    {
+        /*
+        Input: root = [1,null,2,3]
+        Output: [1,3,2]
+
+        Input: root = [1,2,3,4,5,null,8,null,null,6,7,9]
+        Output: [4,2,6,5,7,1,3,9,8]
+
+        Input: root = []
+        Output: []
+
+        Input: root = [1]
+        Output: [1]
+        
+        Constraints:
+        The number of nodes in the tree is in the range [0, 100].
+        -100 <= Node.val <= 100
+        */
+        var result = new List<int>();
+        TraverseInorderRecursive(root, result);
+        return result;
+    }
+
+    private static void TraverseInorderRecursive(TreeNode node, IList<int> result)
+    {
+        if (node.left != null)
+            TraverseInorderRecursive(node.left, result);
+        result.Add(node.val);
+        if (node.right != null)
+            TraverseInorderRecursive(node.right, result);
+    }
+    
+    public static IList<int> InorderTraversalIterative(TreeNode? node)
+    {
+        var result = new List<int>();
+        var stack = new Stack<TreeNode>();
+        
+        while (node != null || stack.Count > 0)
+        {
+            while (node != null)
+            {
+                stack.Push(node);
+                node = node.left;
+            }
+
+            node = stack.Pop();
+            result.Add(node.val);
+
+            node = node.right;
+        }
+
+        return result;
+    }
+    
+    public static bool IsSameTree(TreeNode? p, TreeNode? q) 
+    {
+        if (p == null && q != null)
+            return false;
+        
+        var pStack = new Stack<TreeNode>();
+        var qStack = new Stack<TreeNode>();
+        
+        while (p != null || pStack.Count > 0)
+        {
+            if (p == null && q != null)
+                return false;
+            if (p != null && q == null)
+                return false;
+            if (pStack.Count > 0 && qStack.Count == 0)
+                return false;
+            
+            while (p != null)
+            {
+                if (q == null)
+                    return false;
+                
+                pStack.Push(p);
+                p = p.left;
+                
+                qStack.Push(q);
+                q = q.left;
+            }
+            
+            if (p == null && q != null)
+                return false;
+
+            p = pStack.Pop();
+            q = qStack.Pop();
+            
+            if (p.val != q.val)
+                return false;
+
+            p = p.right;
+            q = q.right;
+            
+            if (p == null && q != null)
+                return false;
+            if (p != null && q == null)
+                return false;
+        }
+
+        return true;
     }
 }

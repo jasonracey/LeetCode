@@ -1,4 +1,5 @@
-﻿using static LeetCode.Easy;
+﻿using LeetCode.Models;
+using static LeetCode.Easy;
 
 namespace LeetCodeTests;
 
@@ -169,5 +170,54 @@ public class EasyTests
     {
         Merge(nums1, m, nums2, n);
         nums1.Should().Equal(expected);
+    }
+    
+    public static IEnumerable<object[]> InorderTraversalData
+    {
+        get
+        {
+            return new[]
+            { 
+                new object[] { new TreeNode(val: 1, right: new TreeNode(val: 2, left: new TreeNode(val: 3))), new []{1, 3, 2} },
+                new object[] { new TreeNode(val: 1, left: new TreeNode(2, left: new TreeNode(4), right: new TreeNode(5, left: new TreeNode(6), right: new TreeNode(7))), right: new TreeNode(val: 3, right: new TreeNode(val: 8), left: new TreeNode(val: 9))), new[]{4, 2, 6, 5, 7, 1, 9, 3, 8} },
+            };
+        }
+    }
+
+    [DataTestMethod]
+    [DynamicData(nameof(InorderTraversalData))]
+    public void InorderTraversalRecursiveTests(TreeNode root, IList<int> expected)
+    {
+        InorderTraversalRecursive(root).Should().Equal(expected);
+    }
+    
+    [DataTestMethod]
+    [DynamicData(nameof(InorderTraversalData))]
+    public void InorderTraversalIterativeTests(TreeNode root, IList<int> expected)
+    {
+        InorderTraversalIterative(root).Should().Equal(expected);
+    }
+    
+    public static IEnumerable<object[]> IsSameTreeData
+    {
+        get
+        {
+            return new[]
+            {
+                new object[] { null, new TreeNode(val: 0), false },
+                new object[] { new TreeNode(val: 1), new TreeNode(val: 1, left: null, right: new TreeNode(val: 2)), false },
+                new object[] { new TreeNode(val: 1, left: new TreeNode(val: 2), right: new TreeNode(val: 3)), new TreeNode(val: 1, left: new TreeNode(val: 2), right: new TreeNode(val: 3)), true },
+                new object[] { new TreeNode(val: 1, left: new TreeNode(val: 2)), new TreeNode(val: 1, right: new TreeNode(val: 2)), false },
+                new object[] { new TreeNode(val: 1, left: new TreeNode(val: 2), right: new TreeNode(val: 1)), new TreeNode(val: 1, left: new TreeNode(val: 1), right: new TreeNode(val: 2)), false },
+                new object[] { new TreeNode(val: 2, right: new TreeNode(val: 4)), new TreeNode(val: 2, left: new TreeNode(val: 3), right: new TreeNode(val: 4)), false },
+            };
+        }
+    }
+    
+    [DataTestMethod]
+    [DynamicData(nameof(IsSameTreeData))]
+    public void IsSameTreeTests(TreeNode p, TreeNode q, bool expected)
+    {
+        IsSameTree(p, q).Should().Be(expected);
     }
 }
