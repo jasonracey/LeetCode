@@ -220,4 +220,27 @@ public class EasyTests
     {
         IsSameTree(p, q).Should().Be(expected);
     }
+
+    public static IEnumerable<object[]> IsSymmetricData
+    {
+        get
+        {
+            return new[]
+            {
+                //[1,2,2,3,4,4,3]
+                //new object[] { new TreeNode(val: 1, left: new TreeNode(val: 2, left: new TreeNode(val: 3), right: new TreeNode(val: 4)), right: new TreeNode(val: 2, left: new TreeNode(val: 4), right: new TreeNode(val: 3))), true },
+                //[1,2,2,null,3,null,3]
+                //new object[] { new TreeNode(val: 1, left: new TreeNode(val: 2, left: null, right: new TreeNode(val: 3)), right: new TreeNode(val: 2, left: null, right: new TreeNode(val: 3))), false },
+                //[1,2,2,2,null,2]
+                new object[] { new TreeNode(val: 1, left: new TreeNode(val: 2, left: new TreeNode(val: 2), right: null), right: new TreeNode(val: 2, left: new TreeNode(val: 2), right: null)), false },
+            };
+        }
+    }
+
+    [DataTestMethod]
+    [DynamicData(nameof(IsSymmetricData))]
+    public void IsSymmetricTests(TreeNode root, bool expected)
+    {
+        IsSymmetric(root).Should().Be(expected);
+    }
 }

@@ -1073,4 +1073,49 @@ public static class Easy
 
         return true;
     }
+
+    public static bool IsSymmetric(TreeNode root)
+    {
+        /*
+        Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+        Input: root = [1,2,2,3,4,4,3]
+        Output: true
+
+        Input: root = [1,2,2,null,3,null,3]
+        Output: false
+
+        The number of nodes in the tree is in the range [1, 1000].
+        -100 <= Node.val <= 100
+        */
+
+        // tree is a mirror if left-node-right == right-node-left
+        var queue = new Queue<TreeNode>();
+
+        queue.Enqueue(root.left);
+        queue.Enqueue(root.right);
+
+        while (queue.Count > 0)
+        {
+            var x = queue.Dequeue();
+            var y = queue.Dequeue();
+
+            if (x == null && y == null)
+            {
+                continue;
+            }
+
+            if (x == null || y == null || x.val != y.val)
+            {
+                return false;
+            }
+
+            queue.Enqueue(x.left);
+            queue.Enqueue(y.right);
+            queue.Enqueue(x.right);
+            queue.Enqueue(y.left);
+        }
+
+        return true;
+    }
 }
